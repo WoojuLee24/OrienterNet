@@ -103,7 +103,7 @@ def prepare_experiment_dir(experiment_dir, cfg, rank):
 
 
 def train(cfg: DictConfig, job_id: Optional[int] = None):
-    torch.set_float32_matmul_precision("medium")
+    # torch.set_float32_matmul_precision("medium")
     OmegaConf.resolve(cfg)
     rank = rank_zero_only.rank
 
@@ -159,10 +159,19 @@ def train(cfg: DictConfig, job_id: Optional[int] = None):
                 (cfg.data["loading"][split].num_workers + cfg.experiment.gpus - 1)
                 / cfg.experiment.gpus
             )
+    elif cfg.experiment.gpus == 1:
+        strategy = 'auto'
+
     data = data_modules[cfg.data.get("name", "mapillary")](cfg.data)
 
-    tb_args = {"name": cfg.experiment.name, "version": ""}
-    tb = pl.loggers.TensorBoardLogger(EXPERIMENTS_PATH, **tb_args)
+    if cfg.training.logging == 'tb':
+        tb_args = {"name": cfg.experiment.name, "version": ""}
+        # tb = pl.loggers.TensorBoardLogger(EXPERIMENTS_PATH, **tb_args)
+        pl_logger = pl.loggers.TensorBoardLogger(EXPERIMENTS_PATH, **tb_args)
+    elif cfg.training.logging == 'wandb':
+        pl_logger = pl.loggers.WandbLogger(project='orienter', entity='kaist-url-ai28', name=cfg.experiment.name)
+    else:
+        pl_logger = None
 
     callbacks = [
         checkpointing_epoch,
@@ -181,7 +190,7 @@ def train(cfg: DictConfig, job_id: Optional[int] = None):
         enable_model_summary=False,
         sync_batchnorm=True,
         enable_checkpointing=True,
-        logger=tb,
+        logger=pl_logger,
         callbacks=callbacks,
         strategy=strategy,
         check_val_every_n_epoch=1,

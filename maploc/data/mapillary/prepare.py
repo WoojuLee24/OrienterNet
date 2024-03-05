@@ -305,6 +305,11 @@ def process_location(
 
     logger.info("Fetching image pixels.")
     image_urls = [(i, info["thumb_2048_url"]) for i, info in image_infos.items()]
+    import os
+    image_rawlist = os.listdir(f'/ws/data/MGL/{location}/images_raw/')
+    for image_url in image_urls:
+        if str(image_url[0]) + '.jpg' in image_rawlist:
+            image_urls.remove(image_url)
     num_fail = loop.run_until_complete(
         fetch_images_pixels(image_urls, downloader, raw_image_dir)
     )

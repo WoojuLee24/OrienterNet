@@ -66,7 +66,7 @@ class TemplateSampler(torch.nn.Module):
             b, n, c, h, w
         )
 
-        if self.optimize:  # we have computed only the first quadrant
+        if self.optimize:  # we have computed only the first quadrant   # why?
             kernels_quad234 = [torch.rot90(kernels, -i, (-2, -1)) for i in (1, 2, 3)]
             kernels = torch.cat([kernels] + kernels_quad234, 1)
 

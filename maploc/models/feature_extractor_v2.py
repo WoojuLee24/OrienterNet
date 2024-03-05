@@ -146,7 +146,8 @@ class FeatureExtractor(BaseModel):
 
         if conf.num_downsample is not None:
             layers = layers[: conf.num_downsample]
-        encoder = Encoder(weights="DEFAULT" if conf.pretrained else None, **kw)
+        # encoder = Encoder(weights="DEFAULT" if conf.pretrained else None, **kw)
+        encoder = Encoder(**kw)
         encoder = create_feature_extractor(encoder, return_nodes=layers)
         if conf.encoder.startswith("resnet") and conf.remove_stride_from_first_conv:
             encoder.conv1 = remove_conv_stride(encoder.conv1)

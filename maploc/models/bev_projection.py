@@ -73,14 +73,14 @@ class CartesianProjection(torch.nn.Module):
     def sample_from_polar(self, image_polar, valid_polar, grid_uz):
         size = grid_uz.new_tensor(image_polar.shape[-2:][::-1])
         grid_uz_norm = (grid_uz + 0.5) / size * 2 - 1
-        grid_uz_norm = grid_uz_norm * grid_uz.new_tensor([1, -1])  # y axis is up
+        grid_uz_norm = grid_uz_norm * grid_uz.new_tensor([1, -1])  # y axis is up # why?
         image_bev = grid_sample(image_polar, grid_uz_norm, align_corners=False)
 
         if valid_polar is None:
             valid = torch.ones_like(image_polar[..., :1, :, :])
         else:
             valid = valid_polar.to(image_polar)[:, None]
-        valid = grid_sample(valid, grid_uz_norm, align_corners=False)
+        valid = grid_sample(valid, grid_uz_norm, align_corners=False) # why?
         valid = valid.squeeze(1) > (1 - 1e-4)
 
         return image_bev, valid

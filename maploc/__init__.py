@@ -23,6 +23,7 @@ pl_logger = logging.getLogger("pytorch_lightning")
 if len(pl_logger.handlers):
     pl_logger.handlers[0].setFormatter(formatter)
 
-repo_dir = Path(__file__).parent.parent
+# repo_dir = Path(__file__).parent.parent
+repo_dir = Path('/ws/external')
 EXPERIMENTS_PATH = repo_dir / "experiments/"
 DATASETS_PATH = repo_dir / "datasets/"

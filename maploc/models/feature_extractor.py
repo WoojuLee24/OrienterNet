@@ -85,7 +85,8 @@ class FeatureExtractor(BaseModel):
         if conf.pretrained:
             assert conf.input_dim == 3
         Encoder = getattr(torchvision.models, conf.encoder)
-        encoder = Encoder(weights="DEFAULT" if conf.pretrained else None)
+        # encoder = Encoder(weights="DEFAULT" if conf.pretrained else None)
+        encoder = Encoder()
         Block = checkpointed(torch.nn.Sequential, do=conf.checkpointed)
         assert max(conf.output_scales) <= conf.num_downsample
 

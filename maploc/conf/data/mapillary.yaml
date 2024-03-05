@@ -1,18 +1,18 @@
 name: mapillary
 scenes:
   - sanfrancisco_soma
-  - sanfrancisco_hayes
-  - amsterdam
-  - berlin
-  - lemans
-  - montrouge
-  - toulouse
-  - nantes
-  - vilnius
-  - avignon
-  - helsinki
-  - milan
-  - paris
+#  - sanfrancisco_hayes
+#  - amsterdam
+#  - berlin
+#  - lemans
+#  - montrouge
+#  - toulouse
+#  - nantes
+#  - vilnius
+#  - avignon
+#  - helsinki
+#  - milan
+#  - paris
 split: splits_MGL_13loc.json
 loading:
   train:

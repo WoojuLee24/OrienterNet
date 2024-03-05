@@ -104,7 +104,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     args.data_dir.mkdir(exist_ok=True, parents=True)
-    download(args.data_dir)
+    # download(args.data_dir)
 
     tiles_path = args.data_dir / KittiDataModule.default_cfg["tiles_filename"]
     if args.generate_tiles:
